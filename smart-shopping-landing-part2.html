@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartList - Assistant Courses Intelligent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 5px;
+        }
+
+        .language-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .language-btn.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .language-btn:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            min-height: 30vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin: 0 auto 20px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #FF5722;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background-color: #f4511e;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .features {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 12px;
+            background: #f8f8f8;
+            border-radius: 50%;
+        }
+
+        .feature-card h3 {
+            color: #2E7D32;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .early-access {
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .early-access h2 {
+            font-size: 1.8rem;
+            color: #2E7D32;
+            margin-bottom: 15px;
+        }
+
+        .early-access p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            color: #555;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 25px auto;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .email-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .language-selector {
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+            }
+
+            .language-btn {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="language-selector">
+        <button class="language-btn active" data-lang="fr">FR</button>
+        <button class="language-btn" data-lang="en">EN</button>
+        <button class="language-btn" data-lang="de">DE</button>
+        <button class="language-btn" data-lang="es">ES</button>
+    </div>
+
+    <section class="hero">
+        <div class="content-section active" data-lang="fr">
+            <div class="hero-content">
+                <h1>SmartList - Révolutionnez vos courses au quotidien</h1>
+                <p>L'assistant intelligent qui simplifie votre vie : suivi automatique de vos stocks, suggestions de
+                    recettes personnalisées, et courses automatisées.</p>
+                <a href="#early-access" class="cta-button">Rejoindre la liste d'attente</a>
+            </div>
+        </div>
+        <div class="content-section" data-lang="en">
+            <div class="hero-content">
+                <h1>SmartList - Revolutionize Your Daily Shopping</h1>
+                <p>The intelligent assistant that simplifies your life: automatic stock tracking, personalized recipe
+                    suggestions, and automated shopping.</p>
+                <a href="#early-access" class="cta-button">Join the Waitlist</a>
+            </div>
+        </div>
+        <div class="content-section" data-lang="de">
+            <div class="hero-content">
+                <h1>SmartList - Revolutionieren Sie Ihren täglichen Einkauf</h1>
+                <p>Der intelligente Assistent, der Ihr Leben vereinfacht: automatische Bestandsverfolgung,
+                    personalisierte Rezeptvorschläge und automatisierter Einkauf.</p>
+                <a href="#early-access" class="cta-button">Warteliste beitreten</a>
+            </div>
+        </div>
+        <div class="content-section" data-lang="es">
+            <div class="hero-content">
+                <h1>SmartList - Revoluciona tu forma de hacer la compra</h1>
+                <p>El asistente inteligente que simplifica tu vida: seguimiento automático de existencias, sugerencias
+                    personalizadas de recetas y compras automatizadas.</p>
+                <a href="#early-access" class="cta-button">Unirse a la lista de espera</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="content-section active" data-lang="fr">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Suivi Intelligent des Stocks</h3>
+                    <p>Ne manquez plus jamais d'ingrédients essentiels. Recevez des alertes automatiques quand vos
+                        produits préférés sont presque épuisés.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👩‍🍳</div>
+                    <h3>Suggestions de Recettes</h3>
+                    <p>Découvrez des recettes personnalisées basées sur ce que vous avez déjà dans vos placards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Courses Automatisées</h3>
+                    <p>Laissez notre système intelligent faire vos courses à votre place, en fonction de vos habitudes.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Nutrition Optimisée</h3>
+                    <p>Mangez plus sainement grâce à des suggestions personnalisées et des alternatives plus saines.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Économies Garanties</h3>
+                    <p>Comparez les prix en temps réel et profitez des meilleures offres sans effort. Optimisez votre
+                        budget.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Simplicité d'Utilisation</h3>
+                    <p>Une interface intuitive qui s'adapte à votre mode de vie. Gérez tout depuis votre smartphone.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section" data-lang="en">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Smart Stock Tracking</h3>
+                    <p>Never run out of essential ingredients again. Receive automatic alerts when your favorite
+                        products are running low.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👩‍🍳</div>
+                    <h3>Recipe Suggestions</h3>
+                    <p>Discover personalized recipes based on what you already have in your pantry.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Automated Shopping</h3>
+                    <p>Let our intelligent system do your shopping for you, based on your habits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Optimized Nutrition</h3>
+                    <p>Eat healthier with personalized suggestions and healthier alternatives.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Guaranteed Savings</h3>
+                    <p>Compare prices in real-time and take advantage of the best deals effortlessly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Easy to Use</h3>
+                    <p>An intuitive interface that adapts to your lifestyle. Manage everything from your smartphone.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section" data-lang="de">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Intelligente Bestandsverfolgung</h3>
+                    <p>Gehen Sie nie wieder wichtige Zutaten aus. Erhalten Sie automatische Benachrichtigungen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👩‍🍳</div>
+                    <h3>Rezeptvorschläge</h3>
+                    <p>Entdecken Sie personalisierte Rezepte basierend auf Ihren vorhandenen Zutaten.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Automatisierter Einkauf</h3>
+                    <p>Lassen Sie unser intelligentes System basierend auf Ihren Gewohnheiten einkaufen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Optimierte Ernährung</h3>
+                    <p>Ernähren Sie sich gesünder mit personalisierten Vorschlägen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Garantierte Einsparungen</h3>
+                    <p>Vergleichen Sie Preise in Echtzeit und profitieren Sie von den besten Angeboten.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Einfache Bedienung</h3>
+                    <p>Eine intuitive Benutzeroberfläche. Verwalten Sie alles von Ihrem Smartphone aus.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section" data-lang="es">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Seguimiento Inteligente de Stock</h3>
+                    <p>No vuelvas a quedarte sin ingredientes esenciales. Recibe alertas automáticas cuando tus
+                        productos favoritos se estén agotando.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👩‍🍳</div>
+                    <h3>Sugerencias de Recetas</h3>
+                    <p>Descubre recetas personalizadas basadas en lo que ya tienes en tu despensa.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Compras Automatizadas</h3>
+                    <p>Deja que nuestro sistema inteligente haga las compras por ti, según tus hábitos y preferencias.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🥗</div>
+                    <h3>Nutrición Optimizada</h3>
+                    <p>Come más saludable con sugerencias personalizadas y alternativas más sanas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Ahorro Garantizado</h3>
+                    <p>Compara precios en tiempo real y aprovecha las mejores ofertas sin esfuerzo.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Fácil de Usar</h3>
+                    <p>Una interfaz intuitiva que se adapta a tu estilo de vida. Gestiona todo desde tu smartphone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="early-access" class="early-access">
+        <div class="content-section active" data-lang="fr">
+            <h2>Soyez parmi les premiers à révolutionner vos courses</h2>
+            <p>Inscrivez-vous maintenant pour devenir early adopter et bénéficiez d'avantages exclusifs.</p>
+            <div class="form-container">
+                <input type="email" class="email-input" placeholder="Votre adresse email">
+                <a href="#" class="cta-button">Je veux être early adopter</a>
+            </div>
+        </div>
+
+        <div class="content-section" data-lang="en">
+            <h2>Be Among the First to Revolutionize Your Shopping</h2>
+            <p>Sign up now to become an early adopter and enjoy exclusive benefits.</p>
+            <div class="form-container">
+                <input type="email" class="email-input" placeholder="Your email address">
+                <a href="#" class="cta-button">I want to be an early adopter</a>
+            </div>
+        </div>
+
+        <div class="content-section" data-lang="de">
+            <h2>Seien Sie unter den Ersten, die ihren Einkauf revolutionieren</h2>
+            <p>Melden Sie sich jetzt an, um Early Adopter zu werden und exklusive Vorteile zu genießen.</p>
+            <div class="form-container">
+                <input type="email" class="email-input" placeholder="Ihre E-Mail-Adresse">
+                <a href="#" class="cta-button">Ich möchte Early Adopter werden</a>
+            </div>
+        </div>
+
+        <div class="content-section" data-lang="es">
+            <h2>Sé de los primeros en revolucionar tu forma de hacer la compra</h2>
+            <p>Regístrate ahora para convertirte en early adopter y disfruta de beneficios exclusivos.</p>
+            <div class="form-container">
+                <input type="email" class="email-input" placeholder="Tu correo electrónico">
+                <a href="#" class="cta-button">Quiero ser early adopter</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function switchLanguage(lang) {
+                // Mise à jour des boutons de langue
+                document.querySelectorAll('.language-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`.language-btn[data-lang="${lang}"]`).classList.add('active');
+
+                // Mise à jour du contenu
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.querySelectorAll(`.content-section[data-lang="${lang}"]`).forEach(section => {
+                    section.classList.add('active');
+                });
+
+                // Mise à jour de la langue du document
+                document.documentElement.lang = lang;
+
+                // Sauvegarde de la préférence
+                localStorage.setItem('preferredLanguage', lang);
+            }
+
+            // Écouteurs d'événements pour les boutons de langue
+            document.querySelectorAll('.language-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    switchLanguage(this.getAttribute('data-lang'));
+                });
+            });
+
+            // Restauration de la langue préférée si elle existe
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang) {
+                switchLanguage(savedLang);
+            }
+        });
+    </script>
+</body>
+
+</html>
