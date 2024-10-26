@@ -407,8 +407,10 @@
             <h2>Soyez parmi les premiers à révolutionner vos courses</h2>
             <p>Inscrivez-vous maintenant pour devenir early adopter et bénéficiez d'avantages exclusifs.</p>
             <div class="form-container">
-                <input type="email" class="email-input" placeholder="Votre adresse email">
-                <a href="#" class="cta-button">Je veux être early adopter</a>
+                <form id="emailForm">
+                    <input type="email" id="email" class="email-input" placeholder="Votre adresse email" required>
+                    <button type="submit" class="cta-button">Je veux être early adopter</button>
+                </form>
             </div>
         </div>
 
@@ -416,8 +418,10 @@
             <h2>Be Among the First to Revolutionize Your Shopping</h2>
             <p>Sign up now to become an early adopter and enjoy exclusive benefits.</p>
             <div class="form-container">
-                <input type="email" class="email-input" placeholder="Your email address">
-                <a href="#" class="cta-button">I want to be an early adopter</a>
+                <form id="emailForm">
+                    <input type="email" id="email" class="email-input" placeholder="Your email address" required>
+                    <button type="submit" class="cta-button">I want to be an early adopter</button>
+                </form>
             </div>
         </div>
 
@@ -425,8 +429,10 @@
             <h2>Seien Sie unter den Ersten, die ihren Einkauf revolutionieren</h2>
             <p>Melden Sie sich jetzt an, um Early Adopter zu werden und exklusive Vorteile zu genießen.</p>
             <div class="form-container">
-                <input type="email" class="email-input" placeholder="Ihre E-Mail-Adresse">
-                <a href="#" class="cta-button">Ich möchte Early Adopter werden</a>
+                <form id="emailForm">
+                    <input type="email" id="email" class="email-input" placeholder="Ihre E-Mail-Adresse" required>
+                    <button type="submit" class="cta-button">Ich möchte Early Adopter werden</button>
+                </form>
             </div>
         </div>
 
@@ -434,8 +440,10 @@
             <h2>Sé de los primeros en revolucionar tu forma de hacer la compra</h2>
             <p>Regístrate ahora para convertirte en early adopter y disfruta de beneficios exclusivos.</p>
             <div class="form-container">
-                <input type="email" class="email-input" placeholder="Tu correo electrónico">
-                <a href="#" class="cta-button">Quiero ser early adopter</a>
+                <form id="emailForm">
+                    <input type="email" id="email" class="email-input" placeholder="Tu correo electrónico" required>
+                    <button type="submit" class="cta-button">Quiero ser early adopter</button>
+                </form>
             </div>
         </div>
     </section>
@@ -476,6 +484,24 @@
             if (savedLang) {
                 switchLanguage(savedLang);
             }
+
+            // Form submission for email collection
+            document.getElementById('emailForm').addEventListener('submit', async function (e) {
+                e.preventDefault();  // Prevent the form from submitting the traditional way
+                const email = document.getElementById('email').value;
+
+                console.log(`Email collected: ${email}`);
+
+                // Post email to Make.com webhook
+                await fetch("https://hook.eu2.make.com/vlkdcql1yj8uatg5lklmnwesxefoccw0", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email }),
+                });
+
+                alert("Merci! Vous êtes maintenant inscrit.");
+                document.getElementById('email').value = '';  // Clear the input field after submission
+            });
         });
     </script>
 </body>
