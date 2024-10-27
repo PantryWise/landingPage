@@ -537,7 +537,7 @@
                     feedbackMessage.textContent = "Processing...";
 
                     try {
-                        await fetch("https://hook.eu2.make.com/vlkdcql1yj8uatg5lklmnwesxefoccw0", {
+                        await fetch("/.netlify/functions/emailProxy", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ email }),
