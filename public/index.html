@@ -540,7 +540,7 @@
                         await fetch("/.netlify/functions/emailProxy", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ email }),
+                            body: JSON.stringify({ email, lang }),
                         });
                         feedbackMessage.textContent = translations[lang].success_message;
                         form.querySelector('.email-input').value = '';
